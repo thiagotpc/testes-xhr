@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PUT com XMLHttpRequest e form-serialize</title>
+  <script src="js/form-serialize.js"></script>
+
+</head>
+<body>
+  <h1>PUT com XMLHttpRequest e form-serialize</h1>
+  <form action="" id="teste">
+    <p><label for="nome">Nome:</label><input type="text" name="nome" id="nome"></p>
+    <p><label for="dataNasc">Data de Nascimento:</label><input type="date" name="dataNasc" id="dataNasc"></p>
+    <p><button type="button" id="btnEnviar">enviar</button></p>
+  </form>
+
+  <h2>Resposta do Servidor</h2>
+  <div id="resultado">
+
+  </div>
+  <p><a href="index.html">voltar aos experimentos com XMLHttpRequest</a></p>
+
+  <script>
+  var btn = document.getElementById('btnEnviar');
+  btn.addEventListener('click', enviarDados);
+  function enviarDados(){
+    var form = document.getElementById('teste');
+    var formSerialized = serialize(form);
+    console.log(formSerialized);
+    var cli = new XMLHttpRequest();
+    cli.open('put','/server.php', true);
+    cli.onreadystatechange = function(){
+      if ((this.readyState==this.DONE) && (this.status==200)) {
+        var resultado = document.getElementById('resultado');
+        resultado.innerHTML = this.responseText;
+      }
+    }
+    cli.send(formSerialized);
+  }
+  </script>
+</body>
+</html>
